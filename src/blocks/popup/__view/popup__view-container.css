@@ -1,9 +1,0 @@
-.popup__view-container {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    max-width: 75vw;
-    max-height: 75vh;
-    object-fit: none;
-    
-}
