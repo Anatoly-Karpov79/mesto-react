@@ -1,4 +1,10 @@
+import { useContext } from "react";
+import { CurrentUserContext } from "../context/CurrentUserContext";
+
 function Card({ card, onCardClick }) {
+  const currentUser = useContext(CurrentUserContext);
+  const isOwn = card.owner._id === currentUser._id;
+
   function handleClick() {
     onCardClick(card);
   }
@@ -11,7 +17,8 @@ function Card({ card, onCardClick }) {
         onClick={handleClick}
       />
       <h2 className="card__name">{card.name}</h2>
-      <button className="card__delete" type="button"></button>
+      {isOwn && <button className="card__delete"  />}
+      
       <button className="card__heart" type="button">
         <p className="card__likes">{card.likes.length}</p>
       </button>
