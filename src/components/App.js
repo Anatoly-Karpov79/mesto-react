@@ -14,11 +14,22 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
 const [currentUser, setCurrentUser] = useState({});
+const [cards, setCards] = useState([]);
+
 
 useEffect(() => {
   api.getUserInfo()
     .then((userInfo) => {
       setCurrentUser(userInfo);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}, []);
+useEffect(() => {
+  api.getInitialCards()
+    .then((initialCards) => {
+      setCards(initialCards);
     })
     .catch((err) => {
       console.log(err);
@@ -55,6 +66,7 @@ useEffect(() => {
         onAddPlace={handleAddPlaceClick}
         onEditProfile={handleEditProfileClick}
         onCardClick={handleCardClick}
+        cards={cards}
       />
 
       <Footer />

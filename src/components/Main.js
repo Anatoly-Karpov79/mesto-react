@@ -1,23 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { CurrentUserContext } from "../context/CurrentUserContext";
-import { api } from "../utils/Api";
 import Card from "./Card";
 
-function Main(props) {
+function Main({cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
   
-  const [cards, setCards] = useState([]);
+  
   const currentUser = React.useContext(CurrentUserContext)
   const {name, avatar, about } = currentUser;
 
-  
-
-  useEffect(() => {
-    Promise.all([ api.getInitialCards()])
-    .then(([ initialCards]) => {
-      
-      setCards(initialCards);
-    });
-  },[]);
 
   return (
     <>
@@ -32,7 +22,7 @@ function Main(props) {
           <button
             className="profile__avatar-button"
             type="button"
-            onClick={props.onEditAvatar}
+            onClick={onEditAvatar}
           />
         </div>
         <div className="profile__info">
@@ -41,7 +31,7 @@ function Main(props) {
             aria-label="Edit"
             type="button"
             className="profile__edit-button"
-            onClick={props.onEditProfile}
+            onClick={onEditProfile}
           />
           <p className="profile__profession">{about}</p>
         </div>
@@ -49,7 +39,7 @@ function Main(props) {
           aria-label="Add"
           type="button"
           className="profile__add-button"
-          onClick={props.onAddPlace}
+          onClick={onAddPlace}
         />
       </section>
 
@@ -59,7 +49,7 @@ function Main(props) {
             <Card
               card={card}
               key={card._id}
-              onCardClick={props.onCardClick}
+              onCardClick={onCardClick}
             ></Card>
           );
         })}
