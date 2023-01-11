@@ -6,55 +6,53 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../context/CurrentUserContext";
 import { api } from "../utils/Api";
-
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isEditAvatar, setIsEditAvatar] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
-const [currentUser, setCurrentUser] = useState({});
-const [cards, setCards] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
 
+  useEffect(() => {
+    api
+      .getUserInfo()
+      .then((userInfo) => {
+        setCurrentUser(userInfo);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-useEffect(() => {
-  api.getUserInfo()
-    .then((userInfo) => {
-      setCurrentUser(userInfo);
-    })
-    .catch((err) => {
-      console.log(err);
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((initialCards) => {
+        setCards(initialCards);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  function handleCardLike(card) {
+    // Снова проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    api.setLike(card._id, !isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
     });
-}, []);
+  }
 
-useEffect(() => {
-  api.getInitialCards()
-    .then((initialCards) => {
-      setCards(initialCards);
-    })
-    .catch((err) => {
-      console.log(err);
+  function handleCardDelete(card) {
+    api.deleteCard(card._id).then(() => {
+      setCards((state) => state.filter((c) => c._id !== card._id));
     });
-}, []);
-
-function handleCardLike(card) {
-  // Снова проверяем, есть ли уже лайк на этой карточке
-  const isLiked = card.likes.some(i => i._id === currentUser._id);
-  
-  // Отправляем запрос в API и получаем обновлённые данные карточки
-  api.setLike(card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-      
-  });
-} 
-
-function handleCardDelete(card) {
-  api.deleteCard(card._id) 
-  .then(() => {
-    setCards((state) => state.filter((c) => c._id !== card._id))
-  })
-}
-
+  }
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -77,7 +75,7 @@ function handleCardDelete(card) {
     setIsEditProfilePopupOpen(false);
     setSelectedCard({});
   }
-  
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Header />
@@ -87,45 +85,15 @@ function handleCardDelete(card) {
         onEditProfile={handleEditProfileClick}
         onCardClick={handleCardClick}
         onCardLike={handleCardLike}
-        onCardDelete ={handleCardDelete}
+        onCardDelete={handleCardDelete}
         cards={cards}
       />
 
       <Footer />
-      <PopupWithForm
-        name={"popup_edit"}
+      <EditProfilePopup
         isOpen={isEditProfilePopupOpen}
-        title={"Редактировать профиль"}
         onClose={closeAllPopups}
-        btnText={"Сохранить"}
-      >
-        <fieldset className="form__set">
-          <input
-            type="text"
-            className="popup__input popup__input_type_name"
-            defaultValue
-            id="name-input"
-            placeholder="Имя"
-            name="name"
-            required
-            minLength={2}
-            maxLength={40}
-          />
-          <span className="form__input-error popup__input-error name-input-error" />
-          <input
-            type="text"
-            className="popup__input popup__input_type_about"
-            defaultValue
-            id="about-input"
-            placeholder="Профессия"
-            name="about"
-            required
-            minLength={2}
-            maxLength={200}
-          />
-          <span className="form__input-error popup__input-error about-input-error" />
-        </fieldset>
-      </PopupWithForm>
+      />
 
       <PopupWithForm
         name={"popup_avatar"}
