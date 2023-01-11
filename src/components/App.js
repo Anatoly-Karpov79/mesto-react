@@ -48,6 +48,14 @@ function handleCardLike(card) {
   });
 } 
 
+function handleCardDelete(card) {
+  api.deleteCard(card._id) 
+  .then(() => {
+    setCards((state) => state.filter((c) => c._id !== card._id))
+  })
+}
+
+
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
@@ -79,6 +87,7 @@ function handleCardLike(card) {
         onEditProfile={handleEditProfileClick}
         onCardClick={handleCardClick}
         onCardLike={handleCardLike}
+        onCardDelete ={handleCardDelete}
         cards={cards}
       />
 
