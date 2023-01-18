@@ -25,17 +25,18 @@
     }).then(this._handleResponse);
   }
 
-  changeProfile(name, about) {
+  changeProfile({name, about}) {
    return fetch(this._baseUrl + `/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
         name: `${name}`,
         about: `${about}`,
-      }),
-    }).then(this._handleResponse);
+      } ), 
+    }) 
+    .then(this._handleResponse);
   }
-
+//console.log(name)
   addCard(data) {
    return fetch(this._baseUrl + `/cards`, {
       method: "POST",
