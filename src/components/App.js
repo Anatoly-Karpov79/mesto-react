@@ -7,10 +7,11 @@ import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../context/CurrentUserContext";
 import { api } from "../utils/Api";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isEditAvatar, setIsEditAvatar] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
@@ -71,7 +72,7 @@ function App() {
   }
 
   function handleEditAvatarClick() {
-    setIsEditAvatar(true);
+    setIsEditAvatarPopupOpen(true);
   }
 
   function handleCardClick(card) {
@@ -79,7 +80,7 @@ function App() {
   }
   function closeAllPopups() {
     setIsAddPlacePopupOpen(false);
-    setIsEditAvatar(false);
+    setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setSelectedCard({});
   }
@@ -114,26 +115,12 @@ function App() {
         onClose={closeAllPopups}
         onUpdateUser={handleUpdateUser}
       />
+      
+<EditAvatarPopup 
+isOpen={isEditAvatarPopupOpen}
+ onClose={closeAllPopups} />
 
-      <PopupWithForm
-        name={"popup_avatar"}
-        isOpen={isEditAvatar}
-        title={"Обновить аватар"}
-        onClose={closeAllPopups}
-        btnText={"Сохранить"}
-      >
-        <fieldset className="form__set">
-          <input
-            type="url"
-            className="popup__input popup__input_avatar_link"
-            id="url-avatar"
-            placeholder="Ссылка на картинку"
-            name="link"
-            required
-          />
-          <span className="form__input-error popup__input-error url-avatar-error" />
-        </fieldset>
-      </PopupWithForm>
+       
 
       <PopupWithForm
         name={"popup_add"}
