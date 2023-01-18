@@ -63,11 +63,11 @@
     .then(this._handleResponse)
   }
 
-  changeAvatar(data) {
+  changeAvatar({data}) {
     return  fetch(this._baseUrl + `/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
-      body: JSON.stringify( {avatar: data.link} )
+      body: JSON.stringify( {avatar: data} )
     })
       .then(this._handleResponse);
   }

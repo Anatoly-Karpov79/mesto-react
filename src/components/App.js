@@ -86,14 +86,27 @@ function App() {
   }
 
   function handleUpdateUser(name, about) {
-    api.changeProfile(name, about)
-    .then((res) => {
-      setCurrentUser(res);
-      closeAllPopups();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    api
+      .changeProfile(name, about)
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  function handleUpdateAvatar(data) {
+    api
+      .changeAvatar(data)
+      
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -115,12 +128,12 @@ function App() {
         onClose={closeAllPopups}
         onUpdateUser={handleUpdateUser}
       />
-      
-<EditAvatarPopup 
-isOpen={isEditAvatarPopupOpen}
- onClose={closeAllPopups} />
 
-       
+      <EditAvatarPopup
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+        onUpdateAvatar={handleUpdateAvatar}
+      />
 
       <PopupWithForm
         name={"popup_add"}
