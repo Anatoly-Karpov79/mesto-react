@@ -36,7 +36,7 @@
     }) 
     .then(this._handleResponse);
   }
-//console.log(name)
+
   addCard(data) {
    return fetch(this._baseUrl + `/cards`, {
       method: "POST",

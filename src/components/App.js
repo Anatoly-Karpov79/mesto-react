@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
-import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../context/CurrentUserContext";
 import { api } from "../utils/Api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -99,9 +99,20 @@ function App() {
   function handleUpdateAvatar(data) {
     api
       .changeAvatar(data)
-      
       .then((res) => {
         setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleAddPlaceSubmit(data) {
+    api
+      .addCard(data)
+      .then((res) => {
+        setCards([res, ...cards]);
         closeAllPopups();
       })
       .catch((err) => {
@@ -134,37 +145,12 @@ function App() {
         onClose={closeAllPopups}
         onUpdateAvatar={handleUpdateAvatar}
       />
-
-      <PopupWithForm
-        name={"popup_add"}
+      <AddPlacePopup
         isOpen={isAddPlacePopupOpen}
-        title={"Новое место"}
         onClose={closeAllPopups}
-        btnText={"Создать"}
-      >
-        <fieldset className="form__set">
-          <input
-            type="text"
-            className="popup__input popup__input_add_name"
-            id="discr-input"
-            placeholder="Название"
-            name="name"
-            required
-            minLength={2}
-            maxLength={30}
-          />
-          <span className="form__input-error popup__input-error discr-input-error" />
-          <input
-            type="url"
-            className="popup__input popup__input_add_link"
-            id="url-input"
-            placeholder="Ссылка на картинку"
-            name="link"
-            required
-          />
-          <span className="form__input-error popup__input-error url-input-error" />
-        </fieldset>
-      </PopupWithForm>
+        onAddPlace={handleAddPlaceSubmit}
+      />
+
       <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
       {/*Попап подтверждения удаления */}
