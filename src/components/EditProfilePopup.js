@@ -44,6 +44,8 @@ function handleChangeAbout(e) {
         onClose={props.onClose}
         btnText={"Сохранить"}
         onSubmit={handleSubmit}
+        isLoading={props.isLoading}
+        loadingText="Сохранение..."
       >
         <fieldset className="form__set">
           <input

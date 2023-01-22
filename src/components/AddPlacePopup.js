@@ -32,6 +32,8 @@ function AddPlacePopup (props) {
         onClose={props.onClose}
         btnText={"Создать"}
         onSubmit={handleSubmit}
+        isLoading={props.isLoading}
+        loadingText="Сохранение..."
       >
         <fieldset className="form__set">
           <input
