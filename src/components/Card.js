@@ -18,7 +18,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   }
 
   function handleDeleteClick() {
-    onCardDelete(card)
+    onCardDelete(card);
   }
 
   return (

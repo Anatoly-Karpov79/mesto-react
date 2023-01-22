@@ -59,10 +59,12 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
-      setCards((state) => state.filter((c) => c._id !== card._id));
-    })
-    .finally(() => setIsLoading(false));
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards((state) => state.filter((c) => c._id !== card._id));
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function handleEditProfileClick() {
@@ -88,7 +90,7 @@ function App() {
   }
 
   function handleUpdateUser(name, about) {
-    setIsLoading(true)
+    setIsLoading(true);
     api
       .changeProfile(name, about)
       .then((res) => {
@@ -101,7 +103,7 @@ function App() {
       .finally(() => setIsLoading(false));
   }
   function handleUpdateAvatar(data) {
-    setIsLoading(true)
+    setIsLoading(true);
     api
       .changeAvatar(data)
       .then((res) => {
@@ -115,7 +117,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(data) {
-    setIsLoading(true)
+    setIsLoading(true);
     api
       .addCard(data)
       .then((res) => {
