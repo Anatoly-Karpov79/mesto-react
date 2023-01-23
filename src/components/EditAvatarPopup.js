@@ -1,9 +1,13 @@
-import React, { useState, createRef } from "react";
+import React, { useState, createRef, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm.js";
 
 function EditAvatarPopup(props) {
   const [value, setValue] = useState("");
   const avatarRef = createRef();
+
+  useEffect(() => {
+    setValue("");
+  }, [props.isOpen]);
 
   function handleChange(e) {
     setValue(e.target.value);

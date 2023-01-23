@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup(props) {
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
+
+  useEffect(() => {
+    setName("");
+  }, [props.isOpen]);
+
+  useEffect(() => {
+    setLink("");
+  }, [props.isOpen]);
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
@@ -44,7 +52,7 @@ function AddPlacePopup(props) {
           required
           minLength={2}
           maxLength={30}
-          //value={}
+          value={name}
           onChange={handleChangeNamePlace}
         />
         <span className="form__input-error popup__input-error discr-input-error" />
@@ -55,7 +63,7 @@ function AddPlacePopup(props) {
           placeholder="Ссылка на картинку"
           name="link"
           required
-          //  value={}
+          value={link}
           onChange={handleChangeLinkPlace}
         />
         <span className="form__input-error popup__input-error url-input-error" />
