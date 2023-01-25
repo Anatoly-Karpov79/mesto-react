@@ -8,6 +8,7 @@ import { api } from "../utils/Api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import ConfirmDeletePopup from "./ConfirmDeletePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -17,6 +18,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] =
+    useState(false);
+  const [deletedCard, setDeletedCard] = useState({});
 
   useEffect(() => {
     api
@@ -68,16 +72,22 @@ function App() {
         });
   }
 
-  function handleCardDelete(card) {
+  function handleDeleteSubmit(card) {
     api
       .deleteCard(card._id)
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== card._id));
+        closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => setIsLoading(false));
+  }
+  function handleCardDelete(card) {
+    setIsConfirmDeletePopupOpen(true);
+    setDeletedCard(card);
+    
   }
 
   function handleEditProfileClick() {
@@ -99,6 +109,8 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
+    setIsConfirmDeletePopupOpen(false);
+    setDeletedCard({});
     setSelectedCard({});
   }
 
@@ -178,32 +190,14 @@ function App() {
       />
 
       <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-
-      {/*Попап подтверждения удаления */}
-      <div className="popup popup_confirm">
-        <div className="popup__container">
-          <button
-            aria-label="Close"
-            type="button"
-            className="popup__close-popup popup__confirm-close popup__button-close"
-          />
-          <h3 className="popup__heading">Вы уверены?</h3>
-          <form
-            name="form__confirm"
-            className="form popup__form"
-            id="form__confirm"
-            noValidate
-          >
-            <button
-              type="submit"
-              className="popup__button"
-              id="popup__button-confirm"
-            >
-              Да
-            </button>
-          </form>
-        </div>
-      </div>
+      
+      <ConfirmDeletePopup
+        isOpen={isConfirmDeletePopupOpen}
+        onClose={closeAllPopups}
+        isLoading={isLoading}
+        onDelete={handleDeleteSubmit}
+        card={deletedCard}
+      />
     </CurrentUserContext.Provider>
   );
 }
