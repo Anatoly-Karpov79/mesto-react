@@ -1,11 +1,9 @@
-import React, {  createRef } from "react";
+import React, { createRef } from "react";
 import PopupWithForm from "./PopupWithForm.js";
 
 function EditAvatarPopup(props) {
-
   const avatarRef = createRef();
 
- 
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -35,7 +33,6 @@ function EditAvatarPopup(props) {
           placeholder="Ссылка на картинку"
           name="link"
           required
-
         />
         <span className="form__input-error popup__input-error url-avatar-error" />
       </fieldset>

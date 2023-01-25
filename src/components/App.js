@@ -87,7 +87,6 @@ function App() {
   function handleCardDelete(card) {
     setIsConfirmDeletePopupOpen(true);
     setDeletedCard(card);
-    
   }
 
   function handleEditProfileClick() {
@@ -190,7 +189,7 @@ function App() {
       />
 
       <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-      
+
       <ConfirmDeletePopup
         isOpen={isConfirmDeletePopupOpen}
         onClose={closeAllPopups}

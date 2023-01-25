@@ -24,7 +24,6 @@ function PopupWithForm({
         <form
           name="form"
           className={`popup__form  popup__${name}`}
- //        noValidate
           onSubmit={onSubmit}
         >
           <fieldset className="form__set">

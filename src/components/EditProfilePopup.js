@@ -12,7 +12,7 @@ function EditProfilePopup(props) {
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, props.isOpen]);
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
@@ -52,7 +52,7 @@ function EditProfilePopup(props) {
           required
           minLength={2}
           maxLength={40}
-          value={name}
+          value={name || ""}
           onChange={handleChangeName}
         />
         <span className="form__input-error popup__input-error name-input-error" />
@@ -65,7 +65,7 @@ function EditProfilePopup(props) {
           required
           minLength={2}
           maxLength={200}
-          value={description}
+          value={description || ""}
           onChange={handleChangeAbout}
         />
         <span className="form__input-error popup__input-error about-input-error" />
